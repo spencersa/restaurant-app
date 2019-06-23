@@ -10,14 +10,20 @@ const httpOptions = {
 @Injectable()
 export class RestaurantDataService {
 
+    //apiUrl: string = "https://foodraterapi.azurewebsites.net/api/"; 
+    //apiCode: string = "?code=iLQ8SX1JTaeVx6dku2UsUSTvZR7jZEYk6GxLEMhjpKzZ5Hnz3kiDVQ==";
+
+    apiUrl: string = "http://localhost:7071/api/"; 
+    apiCode: string = "";
+
     constructor(private http: HttpClient) { }
 
     getAllRestaurants(): Observable<Restaurant[]> {
-        return this.http.get<Restaurant[]>("http://localhost:7071/api/GetAllRestaurants", {responseType: 'json'});
+        return this.http.get<Restaurant[]>(this.apiUrl + "GetAllRestaurants" + this.apiCode, {responseType: 'json'});
     }
 
     getRestaurant(rowKey:string): Observable<Restaurant> {
-        return this.http.get<Restaurant>("http://localhost:7071/api/GetRestaurant?rowKey=" + rowKey);
+        return this.http.get<Restaurant>(this.apiUrl + "GetRestaurant?rowKey=" + rowKey);
     }
 
     addRestaurant(restaurant:Restaurant){
