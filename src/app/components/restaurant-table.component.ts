@@ -12,16 +12,25 @@ export class RestaurantTableComponent implements OnInit {
 
   restaurants: Restaurant[];
   newRestaurantModel: Restaurant;
+  ratingRestaurantModel: Restaurant;
 
   constructor(private restaurantDataService: RestaurantDataService) { }
 
   ngOnInit() {
     this.getAllRestaurants();
-    this.intializeNewRestaurant();
+    this.newRestaurantModel = new Restaurant();
+    this.ratingRestaurantModel = new Restaurant();
   }
 
   intializeNewRestaurant(){
     this.newRestaurantModel = new Restaurant();
+  }
+
+  intializeRatingRestaurant(restaurant: Restaurant){
+    this.ratingRestaurantModel = new Restaurant();
+    this.ratingRestaurantModel.rating = restaurant.rating;
+    this.ratingRestaurantModel.rowKey = restaurant.rowKey;
+    this.ratingRestaurantModel.partitionKey = restaurant.partitionKey;
   }
 
   getAllRestaurants() {
@@ -45,12 +54,20 @@ export class RestaurantTableComponent implements OnInit {
       });
   }
 
+  addRestaurantRating(restaurant: Restaurant) {
+    this.restaurantDataService.addRestaurantRating(restaurant).subscribe(
+      data => {
+        this.getAllRestaurants();
+      });
+  }
+
   updateIsBeingEditedRow(restaurant: Restaurant, isBeingEdited: boolean) {
     restaurant.isBeingEdited = isBeingEdited;
     if (isBeingEdited === false){
       this.restaurantDataService.getRestaurant(restaurant.rowKey).subscribe(
         restaurantData => {
           restaurant.rowKey = restaurantData.rowKey;
+          restaurant.partitionKey = restaurantData.partitionKey;
           restaurant.name = restaurantData.name;
           restaurant.address = restaurantData.address;
           restaurant.description = restaurantData.description;

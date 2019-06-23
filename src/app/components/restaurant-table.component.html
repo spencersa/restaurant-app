@@ -1,5 +1,5 @@
 <div class="container">
-    <button class="btn btn-primary" style="margin: 20px;" (click)="intializeNewRestaurant(); modal.show()">Add Restaurant</button>
+    <button class="btn btn-primary" style="margin: 20px;" (click)="intializeNewRestaurant(); addModal.show()">Add Restaurant</button>
 
     <fa name="cog" animation="spin" *ngIf="!restaurants"></fa>
     <table class="table table-hover" *ngIf="restaurants">
@@ -47,6 +47,7 @@
                 </td>
                 <td>
                     <span *ngIf="!restaurant.isBeingEdited">
+                        <i class="fa fa-star fa-lg table-icon" (click)="intializeRatingRestaurant(restaurant); ratingModal.show()"></i>
                         <i class="fa fa-pencil fa-lg table-icon" (click)="updateIsBeingEditedRow(restaurant, true)"></i>
                         <i class="fa fa-trash fa-lg table-icon" (click)="deleteRestaurant(restaurant)"></i>
                     </span>
@@ -59,12 +60,12 @@
         </tbody>
     </table>
 
-    <app-modal #modal>
+    <app-modal #addModal>
         <div class="app-modal-header">
             Add Restaurant
         </div>
         <div class="app-modal-body">
-            <form (keyup.enter)="addRestaurant(newRestaurantModel); modal.hide()">
+            <form (keyup.enter)="addRestaurant(newRestaurantModel); addModal.hide()">
                 <div class="form-group">
                     <label>Name</label>
                     <input type="text" [(ngModel)]="newRestaurantModel.name" name="name" class="form-control" placeholder="Restaurant Name">
@@ -88,8 +89,26 @@
             </form>
         </div>
         <div class="app-modal-footer">
-            <button type="button" class="btn btn-primary" (click)="addRestaurant(newRestaurantModel); modal.hide()">Save changes</button>
-            <button type="button" class="btn btn-danger" (click)="modal.hide();">Close</button>
+            <button type="button" class="btn btn-primary" (click)="addRestaurant(newRestaurantModel); addModal.hide()">Save changes</button>
+            <button type="button" class="btn btn-danger" (click)="addModal.hide();">Close</button>
         </div>
     </app-modal>
+
+    <app-modal #ratingModal>
+            <div class="app-modal-header">
+                Add Rating
+            </div>
+            <div class="app-modal-body">
+                <form (keyup.enter)="ratingModal.hide()">
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <input type="number" [(ngModel)]="ratingRestaurantModel.rating" name="rating" class="form-control" placeholder="Rating">
+                    </div>
+                </form>
+            </div>
+            <div class="app-modal-footer">
+                <button type="button" class="btn btn-primary" (click)="addRestaurantRating(ratingRestaurantModel); ratingModal.hide()">Save changes</button>
+                <button type="button" class="btn btn-danger" (click)="ratingModal.hide();">Close</button>
+            </div>
+        </app-modal>
 </div>

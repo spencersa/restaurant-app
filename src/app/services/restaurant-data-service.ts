@@ -24,6 +24,10 @@ export class RestaurantDataService {
         return this.http.post<Restaurant>("http://localhost:7071/api/InsertRestaurant", restaurant);
     }
 
+    addRestaurantRating(restaurant:Restaurant){
+        return this.http.post<Restaurant>("http://localhost:7071/api/AddRestaurantRating", restaurant);
+    }
+
     updateRestaurant(restaurant:Restaurant) {
         return this.http.put("http://localhost:7071/api/UpdateRestaurant", restaurant);
     }
