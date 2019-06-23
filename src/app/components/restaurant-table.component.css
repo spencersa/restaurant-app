@@ -1,0 +1,13 @@
+.table-icon{
+    cursor: pointer;
+    display: inline;
+    margin: 10px;
+}
+
+.fa-check{
+    color: #155724;
+}
+
+.fa-times{
+    color: #721c24;   
+}

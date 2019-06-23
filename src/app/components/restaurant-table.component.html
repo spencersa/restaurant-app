@@ -1,0 +1,95 @@
+<div class="container">
+    <button class="btn btn-primary" style="margin: 20px;" (click)="intializeNewRestaurant(); modal.show()">Add Restaurant</button>
+
+    <fa name="cog" animation="spin" *ngIf="!restaurants"></fa>
+    <table class="table table-hover" *ngIf="restaurants">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Address</td>
+                <td>Description</td>
+                <td>Hours</td>
+                <td>Rating</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let restaurant of restaurants">
+                <td>
+                    <div *ngIf="!restaurant.isBeingEdited">{{restaurant.name}}</div>
+                    <div *ngIf="restaurant.isBeingEdited">
+                        <input [(ngModel)]="restaurant.name" (keyup.enter)="updateRestaurant(restaurant)">
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="!restaurant.isBeingEdited">{{restaurant.address}}</div>
+                    <div *ngIf="restaurant.isBeingEdited">
+                        <input [(ngModel)]="restaurant.address" (keyup.enter)="updateRestaurant(restaurant)">
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="!restaurant.isBeingEdited">{{restaurant.description}}</div>
+                    <div *ngIf="restaurant.isBeingEdited">
+                        <input [(ngModel)]="restaurant.description" (keyup.enter)="updateRestaurant(restaurant)">
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="!restaurant.isBeingEdited">{{restaurant.hours}}</div>
+                    <div *ngIf="restaurant.isBeingEdited">
+                        <input [(ngModel)]="restaurant.hours" (keyup.enter)="updateRestaurant(restaurant)">
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="!restaurant.isBeingEdited">{{restaurant.rating}}</div>
+                    <div *ngIf="restaurant.isBeingEdited">
+                        <input type="number" [(ngModel)]="restaurant.rating" (keyup.enter)="updateRestaurant(restaurant)">
+                    </div>
+                </td>
+                <td>
+                    <span *ngIf="!restaurant.isBeingEdited">
+                        <i class="fa fa-pencil fa-lg table-icon" (click)="updateIsBeingEditedRow(restaurant, true)"></i>
+                        <i class="fa fa-trash fa-lg table-icon" (click)="deleteRestaurant(restaurant)"></i>
+                    </span>
+                    <span *ngIf="restaurant.isBeingEdited">
+                        <i class="fa fa-check fa-lg table-icon" (click)="updateRestaurant(restaurant)"></i>
+                        <i class="fa fa-times fa-lg table-icon" (click)="updateIsBeingEditedRow(restaurant, false)"></i>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <app-modal #modal>
+        <div class="app-modal-header">
+            Add Restaurant
+        </div>
+        <div class="app-modal-body">
+            <form (keyup.enter)="addRestaurant(newRestaurantModel); modal.hide()">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" [(ngModel)]="newRestaurantModel.name" name="name" class="form-control" placeholder="Restaurant Name">
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" [(ngModel)]="newRestaurantModel.address" name="address" class="form-control" placeholder="Address">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" [(ngModel)]="newRestaurantModel.description" name="description" class="form-control" placeholder="Description">
+                </div>
+                <div class="form-group">
+                    <label>Hours</label>
+                    <input type="text" [(ngModel)]="newRestaurantModel.hours" name="hours" class="form-control" placeholder="Hours">
+                </div>
+                <div class="form-group">
+                    <label>Rating</label>
+                    <input type="text" [(ngModel)]="newRestaurantModel.rating" name="rating" class="form-control" placeholder="Rating">
+                </div>
+            </form>
+        </div>
+        <div class="app-modal-footer">
+            <button type="button" class="btn btn-primary" (click)="addRestaurant(newRestaurantModel); modal.hide()">Save changes</button>
+            <button type="button" class="btn btn-danger" (click)="modal.hide();">Close</button>
+        </div>
+    </app-modal>
+</div>
